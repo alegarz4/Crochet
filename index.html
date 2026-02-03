@@ -1,155 +1,395 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aretes Crochet</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aretes a Crochet — Guías para Principiantes</title>
+  <style>
+    :root{
+      --bg:#f6f7fb; --card:#ffffff; --txt:#111827; --muted:#6b7280;
+      --brand:#e11d48; --brand2:#fb7185; --border:#e5e7eb;
+      --ok:#16a34a; --warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background:radial-gradient(1200px 600px at 10% 0%, #ffe4e6, transparent), var(--bg);
+      color:var(--txt)
+    }
+    header{
+      padding:18px 16px;
+      background:linear-gradient(90deg, var(--brand), var(--brand2));
+      color:#fff;
+    }
+    header .top{
+      max-width:1100px;margin:0 auto;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;
+    }
+    .title{font-weight:800;font-size:18px;line-height:1.2}
+    .subtitle{opacity:.95;font-size:13px;margin-top:4px}
+    .chip{
+      background:rgba(255,255,255,.2);
+      border:1px solid rgba(255,255,255,.25);
+      padding:6px 10px;border-radius:999px;font-size:12px;display:inline-flex;gap:8px;align-items:center
+    }
+    main{max-width:1100px;margin:16px auto;padding:0 16px 28px}
+    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:0 6px 20px rgba(17,24,39,.06);
+      padding:14px;
+    }
+    h2{margin:0 0 10px;font-size:16px}
+    h3{margin:12px 0 8px;font-size:14px}
+    p{margin:8px 0;color:var(--muted);font-size:14px;line-height:1.4}
+    ul{margin:8px 0 8px 18px;color:var(--muted);font-size:14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .btn{
+      border:1px solid var(--border);
+      background:#fff;
+      padding:10px 12px;border-radius:12px;
+      cursor:pointer;font-weight:700;font-size:13px;
+    }
+    .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+    .btn.ghost{background:transparent}
+    .btn:active{transform:translateY(1px)}
+    .tag{font-size:12px;border:1px solid var(--border);border-radius:999px;padding:4px 10px;background:#fff}
+    .mono{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:13px;background:#0b1020;color:#e5e7eb;
+      padding:10px;border-radius:12px;overflow:auto
+    }
+    .steps{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .step{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:10px 10px;
+      display:flex;gap:10px;align-items:flex-start;
+      background:linear-gradient(180deg, #fff, #fff);
+    }
+    .step input{margin-top:3px}
+    .step .text{flex:1; min-width: 0;}
+    .step .text .t{font-weight:800;font-size:13px}
+    .step .text .d{color:var(--muted);font-size:13px;margin-top:3px;line-height:1.35}
+    .done{border-color:rgba(22,163,74,.35); background:linear-gradient(180deg, #f0fdf4, #ffffff)}
+    .hint{
+      border:1px dashed rgba(225,29,72,.35);
+      background:#fff1f2;
+      border-radius:14px;
+      padding:10px;
+      color:#9f1239;
+      font-size:13px;
+    }
+    .small{font-size:12px;color:var(--muted)}
+    .divider{height:1px;background:var(--border);margin:10px 0}
+    .table{width:100%;border-collapse:separate;border-spacing:0}
+    .table th,.table td{border-bottom:1px solid var(--border);padding:10px 8px;font-size:13px;text-align:left}
+    .table th{color:#374151}
+    footer{max-width:1100px;margin:0 auto;padding:0 16px 24px;color:var(--muted);font-size:12px}
 
-<style>
-:root{
---bg:#f6f7fb;--card:#fff;--txt:#111827;--muted:#6b7280;
---brand:#e11d48;--border:#e5e7eb;--ok:#16a34a;
-}
-body{margin:0;font-family:system-ui;background:#fdecef}
-header{background:var(--brand);color:#fff;padding:16px;font-weight:700}
-main{max-width:900px;margin:auto;padding:16px}
-.card{background:white;border-radius:16px;padding:14px;margin-bottom:14px}
-.step{border:1px solid var(--border);border-radius:12px;padding:10px;margin:8px 0}
-.done{background:#f0fdf4}
-img{width:100%;border-radius:10px;margin-top:6px}
-button{padding:10px;border-radius:10px;border:none;background:var(--brand);color:white}
-textarea{width:100%;border-radius:10px;padding:8px}
-</style>
+    /* ✅ IMAGEN POR PASO (se ve bonito y ligero) */
+    .stepMedia{
+      width: 150px;
+      flex: 0 0 150px;
+    }
+    .stepMedia img{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#fff;
+    }
+    @media (max-width: 640px){
+      .step{flex-direction:column}
+      .stepMedia{width:100%;flex:1}
+    }
+    .mediaNote{margin-top:6px;color:var(--muted);font-size:12px}
+  </style>
 </head>
-
 <body>
+  <header>
+    <div class="top">
+      <div>
+        <div class="title">Aretes a Crochet — Guías para Principiantes</div>
+        <div class="subtitle">Empezamos con ❤️ corazones mini. Después agregamos más figuras (estrellas, flores, etc.).</div>
+      </div>
+      <div class="chip" id="progressChip">📌 Progreso: 0 / 0</div>
+    </div>
+  </header>
 
-<header>
-Aretes Crochet — Corazón Mini
-</header>
+  <main>
+    <div class="grid">
+      <!-- CONTENIDO PRINCIPAL -->
+      <section class="card">
+        <div class="row" style="justify-content:space-between">
+          <h2>❤️ Aretes de Corazón Mini (rápidos y pequeños)</h2>
+          <div class="row">
+            <span class="tag">Nivel: Principiante</span>
+            <span class="tag">Tiempo: 5–8 min / par</span>
+          </div>
+        </div>
 
-<main>
+        <div class="hint">
+          Tip para producir muchos: teje todos los corazones primero, luego esconde hebras y al final coloca ganchos.
+        </div>
 
-<div class="card">
-<h3>Materiales</h3>
-<ul>
-<li>Hilo delgado</li>
-<li>Gancho 2.5–3 mm</li>
-<li>Ganchos para arete</li>
-<li>Tijeras</li>
-</ul>
+        <h3>Materiales</h3>
+        <ul>
+          <li>Hilo delgado (algodón o acrílico ligero)</li>
+          <li>Gancho 2.5–3.0 mm</li>
+          <li>Ganchos para arete + aritos (o argollas)</li>
+          <li>Tijeras</li>
+          <li>Pinzas (opcional, para abrir/cerrar aritos)</li>
+        </ul>
 
-<h3>Patrón</h3>
-<pre>
-Anillo mágico:
-3 pa
-3 mpa
-1 pad
-3 mpa
-3 pa
+        <h3>Abreviaturas (para entender la receta)</h3>
+        <ul>
+          <li><b>cad</b> = cadeneta</li>
+          <li><b>pb</b> = punto bajo</li>
+          <li><b>mpa</b> = medio punto alto</li>
+          <li><b>pa</b> = punto alto</li>
+          <li><b>pad</b> = punto alto doble</li>
+          <li><b>pd</b> = punto deslizado</li>
+          <li><b>AM</b> = anillo mágico</li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <h3>Receta exprés (1 sola vuelta dentro de AM)</h3>
+        <p>Todo se teje dentro del <b>anillo mágico</b>. Al final ajustas para cerrar y se forma el corazón.</p>
+
+        <div class="mono" aria-label="patron">
+AM
+Dentro del AM teje en este orden:
+3 pa,
+3 mpa,
+1 pad,
+3 mpa,
+3 pa,
 1 pd
-</pre>
-</div>
+        </div>
 
-<div class="card">
-<h3>Pasos</h3>
-<div id="steps"></div>
+        <h3>Pasos guiados (marca lo que ya hiciste)</h3>
+        <div class="steps" id="steps"></div>
 
-<button onclick="reset()">Reiniciar</button>
+        <div class="row" style="margin-top:12px">
+          <button class="btn primary" id="btnReset">Reiniciar checks</button>
+          <button class="btn" id="btnSaveNote">Guardar nota</button>
+          <button class="btn ghost" id="btnClearNote">Borrar nota</button>
+          <span class="small" id="saveStatus"></span>
+        </div>
 
-<h4>Mi nota</h4>
-<textarea id="note"></textarea>
-</div>
+        <h3 style="margin-top:14px">Mi nota (colores, para quién, etc.)</h3>
+        <textarea id="note" rows="4" style="width:100%;border:1px solid var(--border);border-radius:14px;padding:10px;font-family:inherit;font-size:14px;outline:none"></textarea>
 
-</main>
+        <p class="small" style="margin-top:10px">
+          ✅ Nota: las “imágenes” son guías visuales automáticas. Cuando tengas fotos reales, las cambiamos en 1 minuto.
+        </p>
+      </section>
 
-<script>
+      <!-- PANEL LATERAL -->
+      <aside class="card">
+        <h2>📦 Producción rápida</h2>
+        <p>Útil cuando tienes muchas compañeras y poco tiempo.</p>
 
-const STEPS=[
-{
-t:"Anillo mágico",
-d:"Forma el anillo inicial.",
-img:"https://via.placeholder.com/400x250?text=Anillo+magico"
-},
-{
-t:"3 puntos altos",
-d:"Primera curva del corazón.",
-img:"https://via.placeholder.com/400x250?text=3+puntos+altos"
-},
-{
-t:"3 medios puntos altos",
-d:"Transición.",
-img:"https://via.placeholder.com/400x250?text=3+mpa"
-},
-{
-t:"1 punto alto doble",
-d:"Pico central.",
-img:"https://via.placeholder.com/400x250?text=punto+alto+doble"
-},
-{
-t:"3 medios puntos altos",
-d:"Bajando del centro.",
-img:"https://via.placeholder.com/400x250?text=3+mpa"
-},
-{
-t:"3 puntos altos",
-d:"Segunda curva.",
-img:"https://via.placeholder.com/400x250?text=3+pa"
-},
-{
-t:"Punto deslizado",
-d:"Cerrar.",
-img:"https://via.placeholder.com/400x250?text=punto+deslizado"
-},
-{
-t:"Cerrar anillo",
-d:"Jala el hilo.",
-img:"https://via.placeholder.com/400x250?text=cerrar+anillo"
-},
-{
-t:"Esconder hebras",
-d:"Parte trasera.",
-img:"https://via.placeholder.com/400x250?text=esconder+hebras"
-},
-{
-t:"Colocar gancho",
-d:"Arete terminado.",
-img:"https://via.placeholder.com/400x250?text=arete+final"
-}
-];
+        <table class="table" aria-label="tips">
+          <thead>
+            <tr><th>Truco</th><th>Cómo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>En serie</td><td>Teje todos → esconde hebras → pon ganchos.</td></tr>
+            <tr><td>1–2 colores</td><td>Evita cambios de color para ahorrar tiempo.</td></tr>
+            <tr><td>Ligero</td><td>Corazón plano, sin relleno.</td></tr>
+          </tbody>
+        </table>
 
-const wrap=document.getElementById("steps");
+        <div class="divider"></div>
 
-function render(){
-wrap.innerHTML="";
-STEPS.forEach((s,i)=>{
-const div=document.createElement("div");
-div.className="step";
-div.innerHTML=`
-<label>
-<input type="checkbox" onchange="save(${i},this.checked)">
-<b>${s.t}</b><br>${s.d}
-<img src="${s.img}">
-</label>
-`;
-wrap.appendChild(div);
-});
-}
+        <h2>➕ Próximas figuras</h2>
+        <p>Vamos agregando patrones aquí conforme quieras:</p>
+        <ul id="futureList">
+          <li>⭐ Estrella mini</li>
+          <li>🌸 Flor mini</li>
+          <li>🎀 Moñito mini</li>
+        </ul>
 
-function save(i,v){
-localStorage.setItem("step"+i,v);
-}
+        <div class="divider"></div>
 
-function reset(){
-localStorage.clear();
-location.reload();
-}
+        <div class="row" style="align-items:flex-start">
+          <span class="tag">Siguiente</span>
+          <p class="small" style="margin:0">
+            Cuando me digas “vamos por la estrella”, te agrego otra sección igual de bonita, con pasos, checks e imágenes.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </main>
 
-document.getElementById("note").value=localStorage.getItem("note")||"";
-document.getElementById("note").oninput=e=>localStorage.setItem("note",e.target.value);
+  <footer>
+    by Claudia Alejandra Garza Hernández · Aretes a Crochet — Guías para Principiantes · <span id="year"></span>
+  </footer>
 
-render();
-</script>
+  <script>
+    // ====== Util: crear "imagen" auto (SVG) para no subir archivos todavía ======
+    function makeStepSvg(label, sub){
+      const bg1 = "#fff1f2";      // rosa suave
+      const bg2 = "#ffe4e6";
+      const ink = "#111827";
+      const muted = "#6b7280";
+      const accent = "#e11d48";
 
+      const svg =
+`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${bg1}"/>
+      <stop offset="1" stop-color="${bg2}"/>
+    </linearGradient>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="900" height="560" fill="url(#g)"/>
+  <rect x="55" y="60" width="790" height="440" rx="34" fill="#fff" filter="url(#s)"/>
+  <circle cx="140" cy="150" r="34" fill="${accent}" opacity="0.12"/>
+  <circle cx="175" cy="185" r="18" fill="${accent}" opacity="0.12"/>
+
+  <text x="110" y="180" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44" font-weight="800" fill="${ink}">
+    ${escapeXml(label)}
+  </text>
+
+  <text x="110" y="235" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="28" font-weight="600" fill="${muted}">
+    ${escapeXml(sub || "")}
+  </text>
+
+  <path d="M705 165c0-32 26-58 58-58 31 0 57 26 57 58 0 50-78 102-115 133-37-31-115-83-115-133 0-32 26-58 58-58 23 0 42 14 52 33 10-19 29-33 52-33z"
+        fill="${accent}" opacity="0.18"/>
+
+  <text x="110" y="420" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+        font-size="22" fill="#374151">
+    Guía visual (puedes reemplazar por foto real después)
+  </text>
+
+  <rect x="110" y="450" width="680" height="10" rx="5" fill="${accent}" opacity="0.25"/>
+</svg>`;
+
+      // data URI
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+
+    function escapeXml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
+
+    // ====== Pasos con imagen ======
+    const STEPS = [
+      { id: "s1",  t: "1) Haz un anillo mágico (AM)", d: "Deja una cola de hilo para poder ajustar y cerrar el centro.", imgLabel:"Anillo mágico", imgSub:"Forma el círculo base" },
+      { id: "s2",  t: "2) Teje 3 puntos altos (3 pa)", d: "Estos forman una ‘loma’ del corazón.", imgLabel:"3 pa", imgSub:"Primera loma" },
+      { id: "s3",  t: "3) Teje 3 medios puntos altos (3 mpa)", d: "Transición suave hacia la parte de arriba.", imgLabel:"3 mpa", imgSub:"Transición suave" },
+      { id: "s4",  t: "4) Teje 1 punto alto doble (1 pad)", d: "Este es el pico central de arriba del corazón.", imgLabel:"1 pad", imgSub:"Pico central" },
+      { id: "s5",  t: "5) Teje 3 medios puntos altos (3 mpa)", d: "Bajas del pico central hacia la otra loma.", imgLabel:"3 mpa", imgSub:"Bajando del centro" },
+      { id: "s6",  t: "6) Teje 3 puntos altos (3 pa)", d: "Formas la segunda ‘loma’.", imgLabel:"3 pa", imgSub:"Segunda loma" },
+      { id: "s7",  t: "7) Cierra con 1 punto deslizado (1 pd)", d: "Para cerrar la vuelta dentro del anillo.", imgLabel:"1 pd", imgSub:"Cierre de vuelta" },
+      { id: "s8",  t: "8) Ajusta el AM para cerrar el centro", d: "Jala la cola de hilo hasta que el agujerito desaparezca.", imgLabel:"Cerrar AM", imgSub:"Aprieta el centro" },
+      { id: "s9",  t: "9) Corta el hilo y esconde hebras", d: "Deja 6–8 cm. Esconde por la parte de atrás.", imgLabel:"Esconder hebras", imgSub:"Remate limpio" },
+      { id: "s10", t: "10) Coloca el gancho del arete", d: "Usa un arito/argolla en la parte superior del corazón.", imgLabel:"Arete listo", imgSub:"Coloca gancho" }
+    ];
+
+    // ====== Storage keys ======
+    const KEY_CHECKS = "crochet_earrings_checks_v2";
+    const KEY_NOTE   = "crochet_earrings_note_v2";
+
+    const stepsWrap = document.getElementById("steps");
+    const chip = document.getElementById("progressChip");
+    const note = document.getElementById("note");
+    const saveStatus = document.getElementById("saveStatus");
+
+    function loadChecks(){
+      try { return JSON.parse(localStorage.getItem(KEY_CHECKS) || "{}"); }
+      catch { return {}; }
+    }
+    function saveChecks(obj){
+      localStorage.setItem(KEY_CHECKS, JSON.stringify(obj));
+    }
+
+    function render(){
+      const checks = loadChecks();
+      stepsWrap.innerHTML = "";
+      let doneCount = 0;
+
+      STEPS.forEach(step => {
+        const checked = !!checks[step.id];
+        if (checked) doneCount++;
+
+        const row = document.createElement("label");
+        row.className = "step" + (checked ? " done" : "");
+
+        const imgSrc = makeStepSvg(step.imgLabel, step.imgSub);
+
+        row.innerHTML = `
+          <input type="checkbox" ${checked ? "checked" : ""} />
+          <div class="text">
+            <div class="t">${step.t}</div>
+            <div class="d">${step.d}</div>
+          </div>
+          <div class="stepMedia" aria-label="imagen paso">
+            <img alt="Guía visual: ${step.imgLabel}" src="${imgSrc}">
+            <div class="mediaNote">Ejemplo visual · ${step.imgLabel}</div>
+          </div>
+        `;
+
+        const cb = row.querySelector("input");
+        cb.addEventListener("change", () => {
+          const cur = loadChecks();
+          cur[step.id] = cb.checked;
+          saveChecks(cur);
+          render();
+        });
+
+        stepsWrap.appendChild(row);
+      });
+
+      chip.textContent = `📌 Progreso: ${doneCount} / ${STEPS.length}`;
+    }
+
+    // Note
+    function loadNote(){
+      note.value = localStorage.getItem(KEY_NOTE) || "";
+    }
+    function saveNote(){
+      localStorage.setItem(KEY_NOTE, note.value.trim());
+      saveStatus.textContent = "✅ Nota guardada";
+      setTimeout(()=> saveStatus.textContent = "", 1500);
+    }
+    function clearNote(){
+      localStorage.removeItem(KEY_NOTE);
+      note.value = "";
+      saveStatus.textContent = "🗑️ Nota borrada";
+      setTimeout(()=> saveStatus.textContent = "", 1500);
+    }
+
+    // Buttons
+    document.getElementById("btnReset").addEventListener("click", () => {
+      localStorage.removeItem(KEY_CHECKS);
+      render();
+    });
+    document.getElementById("btnSaveNote").addEventListener("click", saveNote);
+    document.getElementById("btnClearNote").addEventListener("click", clearNote);
+
+    // Init
+    document.getElementById("year").textContent = new Date().getFullYear();
+    loadNote();
+    render();
+  </script>
 </body>
 </html>
