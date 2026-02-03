@@ -90,24 +90,38 @@
     .table th{color:#374151}
     footer{max-width:1100px;margin:0 auto;padding:0 16px 24px;color:var(--muted);font-size:12px}
 
-    /* ✅ IMAGEN POR PASO (se ve bonito y ligero) */
+    /* ✅ DIBUJITOS: usamos la imagen como "sprite" (3 columnas x 2 filas) */
     .stepMedia{
       width: 150px;
       flex: 0 0 150px;
     }
-    .stepMedia img{
+    .sprite{
       width:100%;
-      height:auto;
-      display:block;
+      aspect-ratio: 1 / 1;
       border-radius:12px;
       border:1px solid var(--border);
-      background:#fff;
+      background-color:#fff;
+      background-image:url("assets/pasos-corazon.png");
+      background-repeat:no-repeat;
+      background-size:300% 200%; /* 3 columnas, 2 filas */
+      display:block;
     }
+    /* posiciones (fila 1) */
+    .p-anillo{background-position: 0%   0%;}
+    .p-3pa   {background-position: 50%  0%;}
+    .p-3mpa  {background-position: 100% 0%;}
+    /* posiciones (fila 2) */
+    .p-1pad  {background-position: 0%   100%;}
+    .p-pd    {background-position: 50%  100%;}
+    .p-arete {background-position: 100% 100%;}
+
+    .mediaNote{margin-top:6px;color:var(--muted);font-size:12px}
+
     @media (max-width: 640px){
       .step{flex-direction:column}
       .stepMedia{width:100%;flex:1}
+      .sprite{max-width:320px}
     }
-    .mediaNote{margin-top:6px;color:var(--muted);font-size:12px}
   </style>
 </head>
 <body>
@@ -187,7 +201,7 @@ Dentro del AM teje en este orden:
         <textarea id="note" rows="4" style="width:100%;border:1px solid var(--border);border-radius:14px;padding:10px;font-family:inherit;font-size:14px;outline:none"></textarea>
 
         <p class="small" style="margin-top:10px">
-          ✅ Nota: las “imágenes” son guías visuales automáticas. Cuando tengas fotos reales, las cambiamos en 1 minuto.
+          Si algún dibujito no se ve, revisa que exista: <b>assets/pasos-corazon.png</b>
         </p>
       </section>
 
@@ -219,12 +233,9 @@ Dentro del AM teje en este orden:
 
         <div class="divider"></div>
 
-        <div class="row" style="align-items:flex-start">
-          <span class="tag">Siguiente</span>
-          <p class="small" style="margin:0">
-            Cuando me digas “vamos por la estrella”, te agrego otra sección igual de bonita, con pasos, checks e imágenes.
-          </p>
-        </div>
+        <p class="small">
+          Siguiente paso: cuando tú digas, genero el set de dibujitos para la ⭐ estrella y lo metemos igual.
+        </p>
       </aside>
     </div>
   </main>
@@ -234,80 +245,24 @@ Dentro del AM teje en este orden:
   </footer>
 
   <script>
-    // ====== Util: crear "imagen" auto (SVG) para no subir archivos todavía ======
-    function makeStepSvg(label, sub){
-      const bg1 = "#fff1f2";      // rosa suave
-      const bg2 = "#ffe4e6";
-      const ink = "#111827";
-      const muted = "#6b7280";
-      const accent = "#e11d48";
-
-      const svg =
-`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="${bg1}"/>
-      <stop offset="1" stop-color="${bg2}"/>
-    </linearGradient>
-    <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity="0.12"/>
-    </filter>
-  </defs>
-
-  <rect x="0" y="0" width="900" height="560" fill="url(#g)"/>
-  <rect x="55" y="60" width="790" height="440" rx="34" fill="#fff" filter="url(#s)"/>
-  <circle cx="140" cy="150" r="34" fill="${accent}" opacity="0.12"/>
-  <circle cx="175" cy="185" r="18" fill="${accent}" opacity="0.12"/>
-
-  <text x="110" y="180" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44" font-weight="800" fill="${ink}">
-    ${escapeXml(label)}
-  </text>
-
-  <text x="110" y="235" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="28" font-weight="600" fill="${muted}">
-    ${escapeXml(sub || "")}
-  </text>
-
-  <path d="M705 165c0-32 26-58 58-58 31 0 57 26 57 58 0 50-78 102-115 133-37-31-115-83-115-133 0-32 26-58 58-58 23 0 42 14 52 33 10-19 29-33 52-33z"
-        fill="${accent}" opacity="0.18"/>
-
-  <text x="110" y="420" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-        font-size="22" fill="#374151">
-    Guía visual (puedes reemplazar por foto real después)
-  </text>
-
-  <rect x="110" y="450" width="680" height="10" rx="5" fill="${accent}" opacity="0.25"/>
-</svg>`;
-
-      // data URI
-      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-    }
-
-    function escapeXml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#39;");
-    }
-
-    // ====== Pasos con imagen ======
+    // ====== Pasos ======
+    // Nota: algunos pasos repiten el mismo "dibujito" (ej. 3 mpa y 3 pa) para cubrir los 10 pasos
     const STEPS = [
-      { id: "s1",  t: "1) Haz un anillo mágico (AM)", d: "Deja una cola de hilo para poder ajustar y cerrar el centro.", imgLabel:"Anillo mágico", imgSub:"Forma el círculo base" },
-      { id: "s2",  t: "2) Teje 3 puntos altos (3 pa)", d: "Estos forman una ‘loma’ del corazón.", imgLabel:"3 pa", imgSub:"Primera loma" },
-      { id: "s3",  t: "3) Teje 3 medios puntos altos (3 mpa)", d: "Transición suave hacia la parte de arriba.", imgLabel:"3 mpa", imgSub:"Transición suave" },
-      { id: "s4",  t: "4) Teje 1 punto alto doble (1 pad)", d: "Este es el pico central de arriba del corazón.", imgLabel:"1 pad", imgSub:"Pico central" },
-      { id: "s5",  t: "5) Teje 3 medios puntos altos (3 mpa)", d: "Bajas del pico central hacia la otra loma.", imgLabel:"3 mpa", imgSub:"Bajando del centro" },
-      { id: "s6",  t: "6) Teje 3 puntos altos (3 pa)", d: "Formas la segunda ‘loma’.", imgLabel:"3 pa", imgSub:"Segunda loma" },
-      { id: "s7",  t: "7) Cierra con 1 punto deslizado (1 pd)", d: "Para cerrar la vuelta dentro del anillo.", imgLabel:"1 pd", imgSub:"Cierre de vuelta" },
-      { id: "s8",  t: "8) Ajusta el AM para cerrar el centro", d: "Jala la cola de hilo hasta que el agujerito desaparezca.", imgLabel:"Cerrar AM", imgSub:"Aprieta el centro" },
-      { id: "s9",  t: "9) Corta el hilo y esconde hebras", d: "Deja 6–8 cm. Esconde por la parte de atrás.", imgLabel:"Esconder hebras", imgSub:"Remate limpio" },
-      { id: "s10", t: "10) Coloca el gancho del arete", d: "Usa un arito/argolla en la parte superior del corazón.", imgLabel:"Arete listo", imgSub:"Coloca gancho" }
+      { id: "s1",  t: "1) Haz un anillo mágico (AM)", d: "Deja una cola de hilo para poder ajustar y cerrar el centro.", imgClass:"p-anillo", imgName:"Anillo mágico" },
+      { id: "s2",  t: "2) Teje 3 puntos altos (3 pa)", d: "Estos forman una ‘loma’ del corazón.", imgClass:"p-3pa", imgName:"3 puntos altos" },
+      { id: "s3",  t: "3) Teje 3 medios puntos altos (3 mpa)", d: "Transición suave hacia la parte de arriba.", imgClass:"p-3mpa", imgName:"3 medios puntos altos" },
+      { id: "s4",  t: "4) Teje 1 punto alto doble (1 pad)", d: "Este es el pico central de arriba del corazón.", imgClass:"p-1pad", imgName:"1 punto alto doble" },
+      { id: "s5",  t: "5) Teje 3 medios puntos altos (3 mpa)", d: "Bajas del pico central hacia la otra loma.", imgClass:"p-3mpa", imgName:"3 medios puntos altos" },
+      { id: "s6",  t: "6) Teje 3 puntos altos (3 pa)", d: "Formas la segunda ‘loma’.", imgClass:"p-3pa", imgName:"3 puntos altos" },
+      { id: "s7",  t: "7) Cierra con 1 punto deslizado (1 pd)", d: "Para cerrar la vuelta dentro del anillo.", imgClass:"p-pd", imgName:"Punto deslizado" },
+      { id: "s8",  t: "8) Ajusta el AM para cerrar el centro", d: "Jala la cola de hilo hasta que el agujerito desaparezca.", imgClass:"p-anillo", imgName:"Cerrar anillo" },
+      { id: "s9",  t: "9) Corta el hilo y esconde hebras", d: "Deja 6–8 cm. Esconde por la parte de atrás.", imgClass:"p-arete", imgName:"Remate" },
+      { id: "s10", t: "10) Coloca el gancho del arete", d: "Usa un arito/argolla en la parte superior del corazón.", imgClass:"p-arete", imgName:"Arete listo" }
     ];
 
     // ====== Storage keys ======
-    const KEY_CHECKS = "crochet_earrings_checks_v2";
-    const KEY_NOTE   = "crochet_earrings_note_v2";
+    const KEY_CHECKS = "crochet_earrings_checks_v3";
+    const KEY_NOTE   = "crochet_earrings_note_v3";
 
     const stepsWrap = document.getElementById("steps");
     const chip = document.getElementById("progressChip");
@@ -334,8 +289,6 @@ Dentro del AM teje en este orden:
         const row = document.createElement("label");
         row.className = "step" + (checked ? " done" : "");
 
-        const imgSrc = makeStepSvg(step.imgLabel, step.imgSub);
-
         row.innerHTML = `
           <input type="checkbox" ${checked ? "checked" : ""} />
           <div class="text">
@@ -343,8 +296,8 @@ Dentro del AM teje en este orden:
             <div class="d">${step.d}</div>
           </div>
           <div class="stepMedia" aria-label="imagen paso">
-            <img alt="Guía visual: ${step.imgLabel}" src="${imgSrc}">
-            <div class="mediaNote">Ejemplo visual · ${step.imgLabel}</div>
+            <span class="sprite ${step.imgClass}" role="img" aria-label="${step.imgName}"></span>
+            <div class="mediaNote">${step.imgName}</div>
           </div>
         `;
 
